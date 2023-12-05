@@ -6,23 +6,21 @@ class WooCommerceClient {
 
     private $wooClient;
 
-    public function __construct($consumerKey, $consumerSecret, $storeURL) {
+    public function __construct($wooKey, $wooSecret, $storeURL) {
 
         $this->wooClient = new Client(
             $storeURL,
-            $consumerKey,
-            $consumerSecret,
+            $wooKey,
+            $wooSecret,
             [
                 'wp_api' => true,
                 'version' => 'wc/v3', // Make sure to use the correct version
             ]
         );
-
     }
 
     public function getProducts()
     {
-
         try {
             return $this->wooClient->get(
                 'products',
@@ -45,10 +43,6 @@ class WooCommerceClient {
             echo "Error {$e->getMessage()}";
         }
     }
-
-
-
-
 
 }
 ?>

@@ -5,11 +5,11 @@ require_once 'Infrastructure/WooCommerceClient.php';
 require_once 'Infrastructure/Parser.php';
 require_once 'Infrastructure/CSVGenerator.php';
 
-$consumerKey = '';
-$consumerSecret = '';
-$storeURL = 'http://localhost/ecomfeed/';
+$wooKey = "";
+$wooSecret = "";
+$storeURL = "";
 
-$wooCommerceClient = new WooCommerceClient($consumerKey, $consumerSecret, $storeURL);
+$wooCommerceClient = new WooCommerceClient($wooKey, $wooSecret, $storeURL);
 $products = $wooCommerceClient->getProducts();
 
 $headersAllegro = getHeadersAllegro();
@@ -29,7 +29,7 @@ $arrFields = [
 ];
 
 $parser = new Parser($arrFields);
-$parsedProduct = $parser->parseAllegro($products, $headersAllegro, $wooCommerceClient);
+$parsedProduct = $parser->parseAllegro($products, $wooCommerceClient);
 $csvName = date('YmdHis')."_productAllegro.csv";
 $csvGenerator = new CSVGenerator();
 $csvGenerator->generateCSV($parsedProduct, $headersAllegro, $csvName);

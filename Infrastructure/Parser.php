@@ -11,7 +11,6 @@ class Parser
 
     public function parseAllegro(
         array $products,
-        array $arrHeaders,
         WooCommerceClient $wooCommerceClient
     ): array
     {
@@ -79,7 +78,7 @@ class Parser
 
                     if ($field === 'attributes') {
                         $arrAttributes = $this->parseProductAttributes($currentField);
-                        if (is_iterable($arrAttributes)) {
+                        if ($arrAttributes) {
                             $parsedProduct = array_merge($parsedProduct, $arrAttributes);
                         }
 
@@ -87,16 +86,12 @@ class Parser
                 }
 
             }
-            if (is_iterable($parsedProduct)) {
+            if ($parsedProduct) {
                 $parsedProduct = array_merge($parsedProduct, $defaultAttributes);
                 $arrParser[] = $parsedProduct;
             }
         }
         return $arrParser;
-    }
-
-    public function getFields() {
-        return $this->fields;
     }
 
     public function extractEanFromMetaData($currentField) {
@@ -135,8 +130,6 @@ class Parser
     }
 
     public function escapeSpecialChars($text) {
-
-        //$text = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $text = '"' . str_replace('"', '""', $text) . '"';
         return $text;
     }
